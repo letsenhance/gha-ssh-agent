@@ -1,0 +1,25 @@
+# Add a new tag to a commit based on semver
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  self_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: add release tag
+        uses: letsenhance/semver-tags@main
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+          tag-prefix: 'v'
+          default-version: '1.0.0'
+          create-release: master
+          add-minor-tag: true
+          add-major-tag: true
